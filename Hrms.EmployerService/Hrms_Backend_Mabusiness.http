@@ -1,0 +1,6 @@
+@Hrms_Backend_Mabusiness_HostAddress = http://localhost:5161
+
+GET {{Hrms_Backend_Mabusiness_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

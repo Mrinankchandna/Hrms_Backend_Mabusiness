@@ -1,0 +1,6 @@
+@Hrms.PayrollService_HostAddress = http://localhost:5298
+
+GET {{Hrms.PayrollService_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
