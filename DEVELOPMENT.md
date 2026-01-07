@@ -140,29 +140,69 @@ Hrms.{ServiceName}/
 
 ## 🗄️ Database Strategy
 
+### Database Provider: Supabase PostgreSQL ✅
+- **Free Tier**: 500MB storage, 2GB bandwidth/month
+- **Remote Hosting**: No local dependencies
+- **Production Ready**: Fully managed PostgreSQL
+- **Perfect for**: 3000+ records per table
+- **Auto-Management**: Built-in monitoring and backups
+
+### Why Supabase for HRMS:
+- **100% Free** for your use case
+- **PostgreSQL** - Enterprise-grade database
+- **Real-time subscriptions** (great for attendance tracking)
+- **Built-in Auth** (can integrate with your JWT)
+- **Dashboard** for database management
+- **Automatic backups** included
+
 ### Database Per Service
-- **HrmsAuth**: Users, Roles, Permissions
-- **HrmsEmployee**: Employee profiles, departments
-- **HrmsEmployer**: Company info, employer profiles
-- **HrmsAttendance**: Check-in/out records
-- **HrmsPayroll**: Salary, deductions, payslips
+- **HrmsAuth**: Users, Roles, Permissions (~300KB)
+- **HrmsEmployee**: Employee profiles, departments (~900KB)
+- **HrmsEmployer**: Company info, employer profiles (~150KB)
+- **HrmsAttendance**: Check-in/out records (~1.5MB)
+- **HrmsPayroll**: Salary, deductions, payslips (~600KB)
+- **Total Estimated**: ~3.5MB (well within 500MB limit)
+
+### Supabase Setup Steps
+1. Go to https://supabase.com
+2. Sign up with GitHub (free)
+3. Create new project
+4. Choose region closest to you
+5. Get connection details from Settings > Database
+6. Copy the connection string
 
 ### Migration Strategy
 ```bash
+# Install EF Core PostgreSQL provider
+dotnet add package Npgsql.EntityFrameworkCore.PostgreSQL
+dotnet add package Microsoft.EntityFrameworkCore.Tools
+
 # Add migration
-dotnet ef migrations add InitialCreate --project Hrms.{Service}
+dotnet ef migrations add InitialCreate --project src/Services/Hrms.{Service}
 
 # Update database
-dotnet ef database update --project Hrms.{Service}
+dotnet ef database update --project src/Services/Hrms.{Service}
 ```
 
 ### Connection Strings
 ```json
 {
   "ConnectionStrings": {
-    "DefaultConnection": "Server=(localdb)\\mssqllocaldb;Database=Hrms{ServiceName};Trusted_Connection=true;MultipleActiveResultSets=true"
+    "DefaultConnection": "Host=db.xxxxxxxxxxxxx.supabase.co;Database=postgres;Username=postgres;Password=your-password;Port=5432;SSL Mode=Require;Trust Server Certificate=true"
   }
 }
+```
+
+### PostgreSQL-Specific Features
+```sql
+-- Use PostgreSQL UUID for better performance
+CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
+
+-- Use JSONB for flexible data storage
+ALTER TABLE Employees ADD COLUMN Metadata JSONB;
+
+-- Use PostgreSQL arrays for tags/skills
+ALTER TABLE Employees ADD COLUMN Skills TEXT[];
 ```
 
 ## 🔌 API Design Standards

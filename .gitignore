@@ -361,3 +361,16 @@ MigrationBackup/
 
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
+
+# Environment Variables (IMPORTANT - Contains sensitive data)
+.env
+.env.local
+.env.development
+.env.production
+
+# Database connection strings and secrets
+appsettings.Production.json
+appsettings.Staging.json
+
+# User secrets
+secrets.json
