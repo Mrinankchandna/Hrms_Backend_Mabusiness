@@ -1,0 +1,16 @@
+namespace Hrms.AuthService.Application.DTOs;
+
+public record LoginRequest(string Email, string Password);
+
+public record RegisterRequest(
+    string Email, 
+    string Password, 
+    string FirstName, 
+    string LastName, 
+    string Role);
+
+public record AuthResponse(
+    string Token, 
+    string Email, 
+    string Role, 
+    DateTime ExpiresAt);
